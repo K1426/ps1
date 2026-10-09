@@ -3,6 +3,7 @@
  */
 package twitter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,9 +27,15 @@ public class Filter {
      * @return all and only the tweets in the list whose author is username,
      *         in the same order as in the input list.
      */
-    public static List<Tweet> writtenBy(List<Tweet> tweets, String username) {
-        throw new RuntimeException("not implemented");
-    }
+	public static List<Tweet> writtenBy(List<Tweet> tweets, String username) {
+		List<Tweet> result = new ArrayList<>();
+		for (Tweet tweet : tweets) {
+			if (tweet.getAuthor().equalsIgnoreCase(username)) {
+				result.add(tweet);
+			}
+		}
+		return result;
+	}
 
     /**
      * Find tweets that were sent during a particular timespan.
@@ -40,9 +47,17 @@ public class Filter {
      * @return all and only the tweets in the list that were sent during the timespan,
      *         in the same order as in the input list.
      */
-    public static List<Tweet> inTimespan(List<Tweet> tweets, Timespan timespan) {
-        throw new RuntimeException("not implemented");
-    }
+	public static List<Tweet> inTimespan(List<Tweet> tweets, Timespan timespan) {
+		List<Tweet> result = new ArrayList<>();
+		for (Tweet tweet : tweets) {
+			// a Timespan includes its endpoints
+			if (!tweet.getTimestamp().isBefore(timespan.getStart())
+			&& !tweet.getTimestamp().isAfter(timespan.getEnd())) {
+				result.add(tweet);
+			}
+		}
+		return result;
+	}
 
     /**
      * Find tweets that contain certain words.
@@ -59,8 +74,25 @@ public class Filter {
      *         so "Obama" is the same as "obama".  The returned tweets are in the
      *         same order as in the input list.
      */
-    public static List<Tweet> containing(List<Tweet> tweets, List<String> words) {
-        throw new RuntimeException("not implemented");
-    }
+	public static List<Tweet> containing(List<Tweet> tweets, List<String> words) {
+	List<Tweet> result = new ArrayList<>();
+		for (Tweet tweet : tweets) {
+			if (hasAnyWord(tweet.getText(), words)) {
+				result.add(tweet);
+			}
+		}
+		return result;
+	}
+	
+	private static boolean hasAnyWord(String text, List<String> words) {
+		for (String tweetWord : text.split(" ")) {
+			for (String word : words) {
+				if (!tweetWord.isEmpty() && tweetWord.equalsIgnoreCase(word)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 }

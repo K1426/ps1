@@ -51,8 +51,9 @@ public class ExtractTest {
     }
     
     
-    
+    //---------------------------------//
     //----------getTimespan()----------//
+    //---------------------------------//
     
     // covers: = 1, timestamps all equal, so in time order
     @Test
@@ -91,7 +92,9 @@ public class ExtractTest {
     }
     
     
+    //---------------------------------//
     //-------getMentionedUsers()-------//
+    //---------------------------------//
     
     // covers: = 1, mentions = 0
     @Test
